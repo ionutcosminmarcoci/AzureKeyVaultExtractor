@@ -21,10 +21,5 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    arguments: -c Release --runtime win-x64 /p:PublishSingleFile=true --self-contained --output $(Build.ArtifactStagingDirectory) --no-dependencies
-    projects: $(Build.SourcesDirectory)
-    zipAfterPublish: true
+
 
