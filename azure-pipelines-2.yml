@@ -18,11 +18,14 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 - task: UseDotNet@2
+  displayName: 'Use .NET Core sdk 5.0.100'
   inputs:
     packageType: 'sdk'
-    version: '5.0.x'
+    version: '5.0.100'
+    includePreviewVersions: true
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
-    command: 'build'
+    command: build
+    projects: '**/*.csproj'
