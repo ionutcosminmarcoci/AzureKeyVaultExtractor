@@ -23,9 +23,14 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '9d034505-3163-4518-986b-c1f0c1344749'
+  
 
 - task: VSBuild@1
   inputs:
