@@ -1,38 +1,22 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+#  https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
-- main
-stages:
-- stage: build
-  jobs:
-  - job: run_build
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: VSBuild@1
-      inputs:
-        solution: '**/*.sln'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-        platform: 'Any CPU'
-        configuration: 'Release'
+- master
 
-    - task: CopyFiles@2
-      displayName: 'Copy scripts'
-      inputs:
-        contents: 'scripts/**'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
+pool:
+  vmImage: windows-latest
 
-    - publish: '$(Build.ArtifactStagingDirectory)/scripts'
-      displayName: 'Publish script'
-      artifact: drop
+variables:
+  buildConfiguration: 'Release'
 
-- stage: test
-  dependsOn: build
-  jobs:
-  - job: run_test
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - download: current
-      artifact: drop
-    - task: PowerShell@2
-      inputs:
-        filePath: '$(Pipeline.Workspace)\drop\test.ps1'
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core 6 sdk'
+  inputs:
+    version: '6.0.x'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
