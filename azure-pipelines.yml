@@ -25,7 +25,7 @@ steps:
   inputs:
     command: 'publish'
     arguments: -c Release --runtime win-x64 /p:PublishSingleFile=true --self-contained --output $(Build.ArtifactStagingDirectory) --no-dependencies
-    projects: $(Build.SourcesDirectory)\KeyVaultExtractor.CLI\KeyVaultExtractor.CLI.csproj
+    projects: $(Build.SourcesDirectory)\KeyVaultExtractor.CLI.csproj
     zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
