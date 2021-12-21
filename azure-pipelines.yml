@@ -23,8 +23,13 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: publish 
-    arguments: -r win-x64 -p:PublishSingleFile=True --self-contained false -o $(Build.ArtifactStagingDirectory)
-    projects: '**/*.csproj'
-    publishWebProjects: false
-  enabled: true
+    command: 'publish'
+    arguments: -c Release --runtime win-x64 /p:PublishSingleFile=true --self-contained --output $(Build.ArtifactStagingDirectory) --no-dependencies
+    projects: $(Build.SourcesDirectory)\KeyVaultExtractor.CLI\KeyVaultExtractor.CLI.csproj
+    zipAfterPublish: false
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'publish'
+    publishLocation: 'Container'
