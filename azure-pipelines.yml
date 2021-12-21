@@ -28,8 +28,3 @@ steps:
     projects: $(Build.SourcesDirectory)
     zipAfterPublish: true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'publish'
-    publishLocation: 'Container'
