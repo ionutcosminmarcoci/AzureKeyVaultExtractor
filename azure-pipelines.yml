@@ -3,7 +3,10 @@
   inputs:
     packageType: 'sdk'
     version: '5.0'
-
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: 'dotnet publish -r win-x64 -p:PublishSingleFile=True --self-contained false'
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
